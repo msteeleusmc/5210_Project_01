@@ -15,17 +15,34 @@ def layoutOne(matrix_arry):
 
     return matrix_arry
 
+def fillOrder(matrix_arry, order, status):
+    pass
+    # Eventually run this until status is True because order is filled
+
+def searchWareHouse(current_position, matrix_arry):
+    pass
+    # Use this to search for shelves
+
+
 # -----------------------------------------------------------------------------------
 #                         Executes Main Program
 # -----------------------------------------------------------------------------------
 if __name__ == "__main__":
     # Variable checks if the order is completed or not
     order_filled = False
+
     # Size of the array is established
     rows, cols = (6, 6)
+
     # Build the warehouse matrix 6 x 6
     matrix_arry = [[-1] * cols] * rows
     matrix_arry = buildWareHouse(matrix_arry)
+
+    # Take customer order
+    customer_order = "fill order here"
+
+    # Fulfill Order
+    order_filled = fillOrder(matrix_arry, customer_order, order_filled)
 
     for row in matrix_arry:
         print(row)
