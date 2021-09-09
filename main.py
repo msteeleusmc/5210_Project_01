@@ -4,8 +4,15 @@ import numpy as np
 #                            Global Function
 # -----------------------------------------------------------------------------------
 def buildWareHouse(matrix_arry):
-    matrix_arry = [[1,2,3,4,5,6], [7,8,9,10,11,12], [13,14,15,16,17,18],
-                  [19,20,21,22,23,24], [25,26,27,28,29,30], [31,32,33,34,35,36]]
+    # Assign shelf locations
+    matrix_arry = layoutOne(matrix_arry)
+    return matrix_arry
+
+def layoutOne(matrix_arry):
+    # Shelf position at 3, 8, 11, 13, 15, 17, 20, 27, 30, 34
+    matrix_arry = [[-1, -1, 'D', -1, -1, -1], [-1, 'A', -1, -1, 'G', -1], ['E', -1, 'B', -1, 'I', -1],
+                   [-1, 'C', -1, -1, -1, -1], [-1, -1, 'F', -1, -1, 'H'], [-1, -1, -1, 'J', -1, -1]]
+
     return matrix_arry
 
 # -----------------------------------------------------------------------------------
@@ -17,7 +24,7 @@ if __name__ == "__main__":
     # Size of the array is established
     rows, cols = (6, 6)
     # Build the warehouse matrix 6 x 6
-    matrix_arry = [[0] * cols] * rows
+    matrix_arry = [[-1] * cols] * rows
     matrix_arry = buildWareHouse(matrix_arry)
 
     for row in matrix_arry:
