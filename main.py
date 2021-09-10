@@ -1,4 +1,4 @@
-import numpy as np
+import random
 
 # -----------------------------------------------------------------------------------
 #                            Global Variable
@@ -65,6 +65,8 @@ def searchUp(matrix_array, row, col):
         return temp
 
 def searchDown(matrix_array, row, col):
+    # temp variable starts as -1 in case we try to move out of bounds.
+    # if row is not 5 then the temp variable will return new value.
     temp = -1
     if row < 5:
         temp = matrix_array[row + 1][col]
@@ -73,6 +75,8 @@ def searchDown(matrix_array, row, col):
         return temp
 
 def searchLeft(matrix_array, row, col):
+    # temp variable starts as -1 in case we try to move out of bounds.
+    # if col is not 0 then the temp variable will return new value.
     temp = -1
     if col > 0:
         temp = matrix_array[row][col -1]
@@ -81,6 +85,8 @@ def searchLeft(matrix_array, row, col):
         return temp
 
 def searchRight(matrix_array, row, col):
+    # temp variable starts as -1 in case we try to move out of bounds.
+    # if col is not 5 then the temp variable will return new value.
     temp = -1
     if col < 5:
         temp = matrix_array[row][col + 1]
@@ -89,17 +95,30 @@ def searchRight(matrix_array, row, col):
         return temp
 
 def searchNeighbors(matrix_arry, row, col, status):
+    # Declare direction variables
     mUp = 0
     mDown = 0
     mLeft = 0
     mRight = 0
 
+    # Call direction functions to check 4 neighbors and store values
     mUp = searchUp(matrix_arry, row, col)
     mDown = searchDown(matrix_arry, row, col)
     mLeft = searchLeft(matrix_arry, row, col)
     mRight = searchRight(matrix_arry, row, col)
 
-    print(mUp, mDown, mLeft, mRight)
+    # Make a list of values if > -1.
+    directionList = []
+    if mUp != -1:
+        directionList.append(mUp)
+    if mDown != -1:
+        directionList.append(mDown)
+    if mLeft != -1:
+        directionList.append(mLeft)
+    if mRight != -1:
+        directionList.append(mRight)
+
+    print(directionList)
 
     # Use this to search for shelves
 
