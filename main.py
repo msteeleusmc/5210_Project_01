@@ -118,7 +118,19 @@ def searchNeighbors(matrix_arry, row, col, status):
     if mRight != -1:
         directionList.append(mRight)
 
-    print(directionList)
+    # Check if any elements in list is a string aka shelf
+    char_found = False
+    for i in directionList:
+        if isinstance(i, str):
+            char_found = True
+
+    # Remove integers if shelves are in the list
+    if char_found is True:
+        directionList = [x for x in directionList if not isinstance(x, int)]
+        print(directionList)
+
+
+
 
     # Use this to search for shelves
 
