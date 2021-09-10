@@ -1,6 +1,11 @@
 import numpy as np
 
 # -----------------------------------------------------------------------------------
+#                            Global Variable
+# -----------------------------------------------------------------------------------
+mCount = list(range(0, 36))
+
+# -----------------------------------------------------------------------------------
 #                            Global Function
 # -----------------------------------------------------------------------------------
 def buildWareHouse(matrix_arry):
@@ -10,8 +15,8 @@ def buildWareHouse(matrix_arry):
 
 def layoutOne(matrix_arry):
     # Shelf position at 3, 8, 11, 13, 15, 17, 20, 27, 30, 34
-    matrix_arry = [[-1, -1, 'D', -1, -1, -1], [-1, 'A', -1, -1, 'G', -1], ['E', -1, 'B', -1, 'I', -1],
-                   [-1, 'C', -1, -1, -1, -1], [-1, -1, 'F', -1, -1, 'H'], [-1, -1, -1, 'J', -1, -1]]
+    matrix_arry = [[1, 2, 'D', 4, 5, 6], [7, 'A', 9, 10, 'G', 12], ['E', 14, 'B', 16, 'I', 18],
+                   [19, 'C', 21, 22, 23, 24], [25, 26, 'F', 28, 29, 'H'], [31, 32, 33, 'J', 35, 36]]
 
     return matrix_arry
 
@@ -19,8 +24,29 @@ def fillOrder(matrix_arry, order, status):
     pass
     # Eventually run this until status is True because order is filled
 
-def searchWareHouse(current_position, matrix_arry):
+def searchWareHouse(matrix_arry, status):
+    #begin search
+    shelf_list = ['A','B','C','D','E','F','G','H','I','J']
+    current_position = 0
+
+    while status is False:
+        searchNeighbors(matrix_arry, 0)
+        # Must make a condition that toggles True/False
+        status = True
+
+    return status
+    """
+    for i in range(0,6):
+        for j in range(0,6):
+            if isinstance(matrix_arry[i][j], str):
+                print('string')
+            else:
+                print('integer')
+    """
+
+def searchNeighbors(matrix_arry, current_position):
     pass
+
     # Use this to search for shelves
 
 
@@ -34,18 +60,20 @@ if __name__ == "__main__":
     # Size of the array is established
     rows, cols = (6, 6)
 
+    # mCount will be used to record the path location
+    #for i in mCount:
+    #    mCount[i] = mCount[i] + 1
+    #    print(mCount[i])
+
     # Build the warehouse matrix 6 x 6
     matrix_arry = [[-1] * cols] * rows
     matrix_arry = buildWareHouse(matrix_arry)
 
-    # Take customer order
-    customer_order = "fill order here"
+    # This will be the end as the order status will be changed to True
+    order_filled = searchWareHouse(matrix_arry, order_filled)
 
-    # Fulfill Order
-    order_filled = fillOrder(matrix_arry, customer_order, order_filled)
+    # Need to record the number of nodes visited, shortest/longest path, average time to csv file or DB
 
-    for row in matrix_arry:
-        print(row)
 
 
 # To search down add 6 to the array position
