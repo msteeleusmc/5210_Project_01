@@ -27,12 +27,22 @@ def fillOrder(matrix_arry, order, status):
 def searchWareHouse(matrix_arry, status):
     #begin search
     shelf_list = ['A','B','C','D','E','F','G','H','I','J']
+    row = 0
+    col = 0
+
     current_position = 0
 
-    while status is False:
-        searchNeighbors(matrix_arry, 0)
+    # Change while loop back to status check once traversal complete
+    #--while status is False:
+    while row < 6:
+        if col <= 5:
+            status = searchNeighbors(matrix_arry, row, col, status)
+            col += 1
+        else:
+            row += 1
+            col = 0
         # Must make a condition that toggles True/False
-        status = True
+        #--status = True
 
     return status
     """
@@ -44,8 +54,52 @@ def searchWareHouse(matrix_arry, status):
                 print('integer')
     """
 
-def searchNeighbors(matrix_arry, current_position):
-    pass
+def searchUp(matrix_array, row, col):
+    # temp variable starts as -1 in case we try to move out of bounds.
+    # if row is not 0 then the temp variable will return new value.
+    temp = -1
+    if row > 0:
+        temp = matrix_array[row - 1][col]
+        return temp
+    else:
+        return temp
+
+def searchDown(matrix_array, row, col):
+    temp = -1
+    if row < 5:
+        temp = matrix_array[row + 1][col]
+        return temp
+    else:
+        return temp
+
+def searchLeft(matrix_array, row, col):
+    temp = -1
+    if col > 0:
+        temp = matrix_array[row][col -1]
+        return temp
+    else:
+        return temp
+
+def searchRight(matrix_array, row, col):
+    temp = -1
+    if col < 5:
+        temp = matrix_array[row][col + 1]
+        return temp
+    else:
+        return temp
+
+def searchNeighbors(matrix_arry, row, col, status):
+    mUp = 0
+    mDown = 0
+    mLeft = 0
+    mRight = 0
+
+    mUp = searchUp(matrix_arry, row, col)
+    mDown = searchDown(matrix_arry, row, col)
+    mLeft = searchLeft(matrix_arry, row, col)
+    mRight = searchRight(matrix_arry, row, col)
+
+    print(mUp, mDown, mLeft, mRight)
 
     # Use this to search for shelves
 
