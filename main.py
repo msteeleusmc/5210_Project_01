@@ -30,29 +30,21 @@ def searchWareHouse(matrix_arry, status):
     row = 0
     col = 0
 
-    current_position = 0
-
     # Change while loop back to status check once traversal complete
-    #--while status is False:
-    while row < 6:
+    while status is False:
         if col <= 5:
-            status = searchNeighbors(matrix_arry, row, col, status)
+            status = searchNeighbors(matrix_arry, row, col, shelf_list, status)
             col += 1
+        elif row > 5:
+            row = 0
+            col = 0
         else:
             row += 1
             col = 0
-        # Must make a condition that toggles True/False
-        #--status = True
 
+    print("Order filled")
     return status
-    """
-    for i in range(0,6):
-        for j in range(0,6):
-            if isinstance(matrix_arry[i][j], str):
-                print('string')
-            else:
-                print('integer')
-    """
+
 
 def searchUp(matrix_array, row, col):
     # temp variable starts as -1 in case we try to move out of bounds.
@@ -78,7 +70,7 @@ def searchLeft(matrix_array, row, col):
     # temp variable starts as -1 in case we try to move out of bounds.
     # if col is not 0 then the temp variable will return new value.
     temp = -1
-    if col > 0:
+    if col > 0 and row <= 5:
         temp = matrix_array[row][col -1]
         return temp
     else:
@@ -88,19 +80,13 @@ def searchRight(matrix_array, row, col):
     # temp variable starts as -1 in case we try to move out of bounds.
     # if col is not 5 then the temp variable will return new value.
     temp = -1
-    if col < 5:
+    if col < 5 and row <= 5:
         temp = matrix_array[row][col + 1]
         return temp
     else:
         return temp
 
-def searchNeighbors(matrix_arry, row, col, status):
-    # Declare direction variables
-    mUp = 0
-    mDown = 0
-    mLeft = 0
-    mRight = 0
-
+def searchNeighbors(matrix_arry, row, col, shelf_list, status):
     # Call direction functions to check 4 neighbors and store values
     mUp = searchUp(matrix_arry, row, col)
     mDown = searchDown(matrix_arry, row, col)
@@ -123,12 +109,28 @@ def searchNeighbors(matrix_arry, row, col, status):
     for i in directionList:
         if isinstance(i, str):
             char_found = True
+            break
 
     # Remove integers if shelves are in the list
     if char_found is True:
         directionList = [x for x in directionList if not isinstance(x, int)]
-        print(directionList)
+        new_position = random.choice(directionList)
 
+        for i in shelf_list:
+            if new_position == i:
+                shelf_list.remove(i)
+
+        print(shelf_list)
+
+        if len(shelf_list) == 0:
+            return True
+
+        return False
+    else:
+        new_position = random.choice(directionList)
+        return False
+
+    print("current position: ", new_position)
 
 
 
@@ -156,7 +158,6 @@ if __name__ == "__main__":
 
     # This will be the end as the order status will be changed to True
     order_filled = searchWareHouse(matrix_arry, order_filled)
-
     # Need to record the number of nodes visited, shortest/longest path, average time to csv file or DB
 
 
@@ -166,5 +167,3 @@ if __name__ == "__main__":
 # To search right add 1 to the array
 # To search up subtract 6 from the array
 # The above searches the neighborhood Up, Down, Left, Right
-
-
