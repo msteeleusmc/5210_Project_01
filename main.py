@@ -40,7 +40,6 @@ def searchWareHouse(matrix_arry, status, path_list):
             row += 1
             col = 0
 
-    print("Order filled")
     return status
 
 
