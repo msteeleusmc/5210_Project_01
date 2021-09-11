@@ -1,11 +1,6 @@
 import random
 
 # -----------------------------------------------------------------------------------
-#                            Global Variable
-# -----------------------------------------------------------------------------------
-mCount = list(range(0, 36))
-
-# -----------------------------------------------------------------------------------
 #                            Global Function
 # -----------------------------------------------------------------------------------
 def buildWareHouse(matrix_arry):
@@ -24,7 +19,7 @@ def fillOrder(matrix_arry, order, status):
     pass
     # Eventually run this until status is True because order is filled
 
-def searchWareHouse(matrix_arry, status):
+def searchWareHouse(matrix_arry, status, path_list):
     #begin search
     shelf_list = ['A','B','C','D','E','F','G','H','I','J']
     row = 0
@@ -33,7 +28,7 @@ def searchWareHouse(matrix_arry, status):
     # Change while loop back to status check once traversal complete
     while status is False:
         if col <= 5:
-            status = searchNeighbors(matrix_arry, row, col, shelf_list, status)
+            status = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
             col += 1
         elif row > 5:
             row = 0
@@ -86,7 +81,7 @@ def searchRight(matrix_array, row, col):
     else:
         return temp
 
-def searchNeighbors(matrix_arry, row, col, shelf_list, status):
+def searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list):
     # Call direction functions to check 4 neighbors and store values
     mUp = searchUp(matrix_arry, row, col)
     mDown = searchDown(matrix_arry, row, col)
@@ -113,29 +108,34 @@ def searchNeighbors(matrix_arry, row, col, shelf_list, status):
 
     # Remove integers if shelves are in the list
     if char_found is True:
+        # Remove all integers
         directionList = [x for x in directionList if not isinstance(x, int)]
+        # assign the new position based on random choice
         new_position = random.choice(directionList)
 
+        # Edit the list of remaining shelves
         for i in shelf_list:
             if new_position == i:
                 shelf_list.remove(i)
 
-        print(shelf_list)
+        # Update the path list to track visited nodes
+        path_list.append(new_position)
 
+        # Update the status to True if no shelves remain in list
         if len(shelf_list) == 0:
             return True
 
+        # Status remains False if shelves are still in list
         return False
     else:
+        # Assign the position based on random choice
         new_position = random.choice(directionList)
+
+        # Add the node to the path list
+        path_list.append(new_position)
+
+        # Return status is False to continue loop
         return False
-
-    print("current position: ", new_position)
-
-
-
-    # Use this to search for shelves
-
 
 # -----------------------------------------------------------------------------------
 #                         Executes Main Program
@@ -147,18 +147,18 @@ if __name__ == "__main__":
     # Size of the array is established
     rows, cols = (6, 6)
 
-    # mCount will be used to record the path location
-    #for i in mCount:
-    #    mCount[i] = mCount[i] + 1
-    #    print(mCount[i])
+    # Create a list to store the path
+    path_list = []
 
     # Build the warehouse matrix 6 x 6
     matrix_arry = [[-1] * cols] * rows
     matrix_arry = buildWareHouse(matrix_arry)
 
     # This will be the end as the order status will be changed to True
-    order_filled = searchWareHouse(matrix_arry, order_filled)
-    # Need to record the number of nodes visited, shortest/longest path, average time to csv file or DB
+    order_filled = searchWareHouse(matrix_arry, order_filled, path_list)
+
+    # Path list successfully stored
+    print(path_list)
 
 
 
