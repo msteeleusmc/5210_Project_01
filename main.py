@@ -1,4 +1,7 @@
 import random
+import time
+import csv
+import os
 
 # -----------------------------------------------------------------------------------
 #                            Global Function
@@ -141,6 +144,9 @@ def searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list):
 #                         Executes Main Program
 # -----------------------------------------------------------------------------------
 if __name__ == "__main__":
+    # Start timer
+    start = time.time()
+
     # Variable checks if the order is completed or not
     order_filled = False
 
@@ -157,9 +163,37 @@ if __name__ == "__main__":
     # This will be the end as the order status will be changed to True
     order_filled = searchWareHouse(matrix_arry, order_filled, path_list)
 
-    # Path list successfully stored
-    print(path_list)
+    # End timer
+    end = time.time()
+    # Final runtim is
+    final_runtime = (end - start)
 
+    # Path list successfully stored
+    #print("Path:\n", path_list)
+    # Number of nodes visited
+    #print("Number of nodes: ", len(path_list))
+    # Runt time 10 deciaml places
+    final_runtime = "Run Time: {:.10f}".format(final_runtime)
+
+    # Write to csv file
+    data = [len(path_list), final_runtime, path_list]
+    # Make csv header
+    header = ['List Size', 'Run Time', 'Nodes Visited']
+    # File path
+    csv_path = 'project_01.csv'
+
+    if os.path.exists(csv_path):
+        with open('project_01.csv', 'a', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(data)
+            f.close()
+    else:
+        with open('project_01.csv', 'a', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer. writerow(header)
+            writer.writerow(data)
+
+            f.close()
 
 
 # To search down add 6 to the array position
