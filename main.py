@@ -30,33 +30,43 @@ def layoutTwo(matrix_arry):
 
     return matrix_arry
 
-def fillOrder(matrix_arry, order, status):
-    pass
-    # Eventually run this until status is True because order is filled
+def fillOrder(shelf_list):
+    # Make a new order list
+    new_order = []
+    # For loop will make a random range to assign list elements
+    for i in range(0,random.randint(1,len(shelf_list)-1)):
+        new_order.append(shelf_list[i])
+
+    # Shuffle the order of the list
+    random.shuffle(new_order)
+
+    return new_order
 
 def searchWareHouseOne(matrix_arry, status, path_list):
     #begin search
     shelf_list = ['A','B','C','D','E','F','G','H','I','J']
+    # Random order generator
+    order = fillOrder(shelf_list)
     row = 0
     col = 0
 
     # Change while loop back to status check once traversal complete
     while status is False:
-        status, row, col = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
+        status, row, col = searchNeighbors(matrix_arry, row, col, order, status, path_list)
 
     return status
 
 def searchWareHouseTwo(matrix_arry, status, path_list):
     #begin search
     shelf_list = ['A','B','C','D','E','F','G','H','I','J','K','M','N','O','P','Q']
+    # Random order generator
+    order = fillOrder(shelf_list)
     row = 0
     col = 0
 
     # Change while loop back to status check once traversal complete
     while status is False:
-        status, row, col = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
-        #time.sleep(2)
-
+        status, row, col = searchNeighbors(matrix_arry, row, col, order, status, path_list)
 
     return status
 
