@@ -42,15 +42,7 @@ def searchWareHouseOne(matrix_arry, status, path_list):
 
     # Change while loop back to status check once traversal complete
     while status is False:
-        if col <= 5:
-            status = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
-            col += 1
-        elif row > 5:
-            row = 0
-            col = 0
-        else:
-            row += 1
-            col = 0
+        status, row, col = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
 
     return status
 
@@ -62,15 +54,9 @@ def searchWareHouseTwo(matrix_arry, status, path_list):
 
     # Change while loop back to status check once traversal complete
     while status is False:
-        if col <= 5:
-            status = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
-            col += 1
-        elif row > 5:
-            row = 0
-            col = 0
-        else:
-            row += 1
-            col = 0
+        status, row, col = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
+        #time.sleep(2)
+
 
     return status
 
@@ -141,8 +127,15 @@ def searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list):
 
     # Remove integers if shelves are in the list
     if char_found is True:
+        # Check if shelfs in order
+        for j in directionList:
+            for i in shelf_list:
+                if j == i:
+                    # Remove all integers
+                    directionList = [x for x in directionList if not isinstance(x, int)]
+
         # Remove all integers
-        directionList = [x for x in directionList if not isinstance(x, int)]
+        #directionList = [x for x in directionList if not isinstance(x, int)]
         # assign the new position based on random choice
         new_position = random.choice(directionList)
 
@@ -154,21 +147,34 @@ def searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list):
         # Update the path list to track visited nodes
         path_list.append(new_position)
 
+        # Assign new row and col
+        for i in range(0,5):
+            for j in range(0,5):
+                if new_position == matrix_arry[i][j]:
+                    row = i
+                    col = j
+
         # Update the status to True if no shelves remain in list
         if len(shelf_list) == 0:
-            return True
+            return True, row, col;
 
         # Status remains False if shelves are still in list
-        return False
+        return False, row, col;
     else:
         # Assign the position based on random choice
         new_position = random.choice(directionList)
+
+        for i in range(0, 5):
+            for j in range(0, 5):
+                if new_position == matrix_arry[i][j]:
+                    row = i
+                    col = j
 
         # Add the node to the path list
         path_list.append(new_position)
 
         # Return status is False to continue loop
-        return False
+        return False, row, col;
 
 # -----------------------------------------------------------------------------------
 #                         Executes Main Program
@@ -278,7 +284,6 @@ if __name__ == "__main__":
             writer.writerow(header)
             writer.writerow(data)
             f.close()
-
 
 # To search down add 6 to the array position
 # To search left subtract 1 to the array position
