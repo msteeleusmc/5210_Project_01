@@ -164,15 +164,14 @@ if __name__ == "__main__":
 
     # End timer
     end = time.time()
-    # Final runtim is
-    final_runtime = (end - start)
 
-    # Path list successfully stored
-    #print("Path:\n", path_list)
-    # Number of nodes visited
-    #print("Number of nodes: ", len(path_list))
-    # Runt time 10 deciaml places
+    # Final runtim is end - start
+    final_runtime = (end - start)
+    # Format time to 10 decimal places
     final_runtime = "Run Time: {:.10f}".format(final_runtime)
+
+    # Calculate scores (35-n)*(-1)+n*3=35+4*n
+    # Figure this one out
 
     # Write to csv file
     data = [len(path_list), final_runtime, path_list]
@@ -191,7 +190,6 @@ if __name__ == "__main__":
             writer = csv.writer(f)
             writer. writerow(header)
             writer.writerow(data)
-
             f.close()
 
 
