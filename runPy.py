@@ -5,7 +5,7 @@ import csv
 
 print("Running main.py...\n\n")
 
-for scriptInstance in range(1,10):
+for scriptInstance in range(1,1000):
     #sys.stdout = open('results.csv', 'w')
     subprocess.check_call(['python', 'main.py'])
 
