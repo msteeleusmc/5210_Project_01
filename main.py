@@ -6,9 +6,14 @@ import os
 # -----------------------------------------------------------------------------------
 #                            Global Function
 # -----------------------------------------------------------------------------------
-def buildWareHouse(matrix_arry):
+def buildWareHouseOne(matrix_arry):
     # Assign shelf locations
     matrix_arry = layoutOne(matrix_arry)
+    return matrix_arry
+
+def buildWareHouseTwo(matrix_arry):
+    # Assign shelf locations
+    matrix_arry = layoutTwo(matrix_arry)
     return matrix_arry
 
 def layoutOne(matrix_arry):
@@ -18,11 +23,18 @@ def layoutOne(matrix_arry):
 
     return matrix_arry
 
+def layoutTwo(matrix_arry):
+    # Shelf position for layout 2
+    matrix_arry = [[1, 2, 'A', 4, 'P', 6], ['D', 8, 'B', 10, 'M', 12], ['E', 14, 'F', 16, 'K', 18],
+                   ['C', 20, 'H', 22, 23, 'O'], ['G', 26, 'J', 28, 29, 'Q'], ['I', 32, 33, 34, 'N', 36]]
+
+    return matrix_arry
+
 def fillOrder(matrix_arry, order, status):
     pass
     # Eventually run this until status is True because order is filled
 
-def searchWareHouse(matrix_arry, status, path_list):
+def searchWareHouseOne(matrix_arry, status, path_list):
     #begin search
     shelf_list = ['A','B','C','D','E','F','G','H','I','J']
     row = 0
@@ -42,6 +54,25 @@ def searchWareHouse(matrix_arry, status, path_list):
 
     return status
 
+def searchWareHouseTwo(matrix_arry, status, path_list):
+    #begin search
+    shelf_list = ['A','B','C','D','E','F','G','H','I','J','K','M','N','O','P','Q']
+    row = 0
+    col = 0
+
+    # Change while loop back to status check once traversal complete
+    while status is False:
+        if col <= 5:
+            status = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
+            col += 1
+        elif row > 5:
+            row = 0
+            col = 0
+        else:
+            row += 1
+            col = 0
+
+    return status
 
 def searchUp(matrix_array, row, col):
     # temp variable starts as -1 in case we try to move out of bounds.
@@ -152,15 +183,19 @@ if __name__ == "__main__":
     # Size of the array is established
     rows, cols = (6, 6)
 
+    # =======================================================================
+    #                           Layout 1
+    # =======================================================================
+
     # Create a list to store the path
     path_list = []
 
     # Build the warehouse matrix 6 x 6
     matrix_arry = [[-1] * cols] * rows
-    matrix_arry = buildWareHouse(matrix_arry)
+    matrix_arry = buildWareHouseOne(matrix_arry)
 
     # This will be the end as the order status will be changed to True
-    order_filled = searchWareHouse(matrix_arry, order_filled, path_list)
+    order_filled = searchWareHouseOne(matrix_arry, order_filled, path_list)
 
     # End timer
     end = time.time()
@@ -179,17 +214,68 @@ if __name__ == "__main__":
     # Make csv header
     header = ['List Size', 'Run Time', 'Nodes Visited', 'Score (35 + 4n)']
     # File path
-    csv_path = 'project_01.csv'
+    csv_path = 'layout_01.csv'
 
     if os.path.exists(csv_path):
-        with open('project_01.csv', 'a', encoding='UTF8', newline='') as f:
+        with open('layout_01.csv', 'a', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(data)
             f.close()
     else:
-        with open('project_01.csv', 'a', encoding='UTF8', newline='') as f:
+        with open('layout_01.csv', 'a', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
             writer. writerow(header)
+            writer.writerow(data)
+            f.close()
+
+    #=======================================================================
+    #                           Layout 2
+    #=======================================================================
+    # Start timer
+    start = time.time()
+
+    # Variable checks if the order is completed or not
+    order_filled2 = False
+
+    # Clear path list
+    path_list2 = []
+
+    # Build the warehouse matrix 6 x 6
+    matrix_arry = []
+    matrix_arry = [[-1] * cols] * rows
+    matrix_arry = buildWareHouseTwo(matrix_arry)
+
+    # This will be the end as the order status will be changed to True
+    order_filled2 = searchWareHouseTwo(matrix_arry, order_filled2, path_list2)
+
+    # End timer
+    end = time.time()
+
+    # Final runtim is end - start
+    final_runtime = (end - start)
+    # Format time to 10 decimal places
+    final_runtime = "Run Time: {:.10f}".format(final_runtime)
+
+    # Calculate scores (35-n)*(-1)+n*3=35+4*n
+    # = 35 + 4n
+    final_score = 35 + 4 * len(path_list2)
+
+    # Write to csv file
+    data = [len(path_list2), final_runtime, path_list2, final_score]
+    # Make csv header
+    header = ['List Size', 'Run Time', 'Nodes Visited', 'Score (35 + 4n)']
+    # File path
+    csv_path = 'layout_02.csv'
+
+    if os.path.exists(csv_path):
+        with open('layout_02.csv', 'a', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(data)
+            f.close()
+    else:
+        with open('layout_02.csv', 'a', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
             writer.writerow(data)
             f.close()
 
