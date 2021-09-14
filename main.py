@@ -171,12 +171,13 @@ if __name__ == "__main__":
     final_runtime = "Run Time: {:.10f}".format(final_runtime)
 
     # Calculate scores (35-n)*(-1)+n*3=35+4*n
-    # Figure this one out
+    # = 35 + 4n
+    final_score = 35 + 4*len(path_list)
 
     # Write to csv file
-    data = [len(path_list), final_runtime, path_list]
+    data = [len(path_list), final_runtime, path_list, final_score]
     # Make csv header
-    header = ['List Size', 'Run Time', 'Nodes Visited']
+    header = ['List Size', 'Run Time', 'Nodes Visited', 'Score (35 + 4n)']
     # File path
     csv_path = 'project_01.csv'
 
