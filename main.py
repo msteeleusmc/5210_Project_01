@@ -228,7 +228,7 @@ if __name__ == "__main__":
     # Write to csv file
     data = [len(path_list), final_runtime, path_list, final_score]
     # Make csv header
-    header = ['List Size', 'Run Time', 'Nodes Visited', 'Score (35 + 4n)']
+    header = ['List Size', 'Run Time', 'Nodes Visited', 'Brute Force Score']
     # File path
     csv_path = 'layout_01.csv'
 
@@ -279,7 +279,7 @@ if __name__ == "__main__":
     # Write to csv file
     data = [len(path_list2), final_runtime, path_list2, final_score]
     # Make csv header
-    header = ['List Size', 'Run Time', 'Nodes Visited', 'Score (35 + 4n)']
+    header = ['List Size', 'Run Time', 'Nodes Visited', 'Brute Force Score']
     # File path
     csv_path = 'layout_02.csv'
 
