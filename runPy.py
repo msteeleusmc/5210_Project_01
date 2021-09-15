@@ -16,14 +16,14 @@ for scriptInstance in range(1,1000):
 csv_data = pd.read_csv("layout_01.csv")
 
 # Sort the data into new csv file
-sorted_data = csv_data.sort_values(by=["List Size"], ascending=True)
+sorted_data = csv_data.sort_values(by=["Path Size"], ascending=True)
 sorted_data.to_csv('sorted_01.csv', index=False)
 # Create dataframe of the sorted csv file
 csv_data = pd.read_csv("sorted_01.csv")
 
 # Record the min and max number of nodes visited for all 1000 iterations
-min_value = csv_data['List Size'].iloc[0]
-max_value = csv_data['List Size'].iloc[-1]
+min_value = csv_data['Path Size'].iloc[0]
+max_value = csv_data['Path Size'].iloc[-1]
 # Record the actual paths taken
 min_path = csv_data['Nodes Visited'].iloc[0]
 max_path = csv_data['Nodes Visited'].iloc[-1]
@@ -64,14 +64,14 @@ print("\nBeginning Layout 2\n")
 csv_data = pd.read_csv("layout_02.csv")
 
 # Sort the data into new csv file
-sorted_data = csv_data.sort_values(by=["List Size"], ascending=True)
+sorted_data = csv_data.sort_values(by=["Path Size"], ascending=True)
 sorted_data.to_csv('sorted_02.csv', index=False)
 # Create dataframe of the sorted csv file
 csv_data = pd.read_csv("sorted_02.csv")
 
 # Record the min and max number of nodes visited for all 1000 iterations
-min_value = csv_data['List Size'].iloc[0]
-max_value = csv_data['List Size'].iloc[-1]
+min_value = csv_data['Path Size'].iloc[0]
+max_value = csv_data['Path Size'].iloc[-1]
 # Record the actual paths taken
 min_path = csv_data['Nodes Visited'].iloc[0]
 max_path = csv_data['Nodes Visited'].iloc[-1]

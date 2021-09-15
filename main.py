@@ -49,6 +49,7 @@ def searchWareHouseOne(matrix_arry, status, path_list):
     already_visited = []
     # Random order generator
     order = fillOrder(shelf_list)
+    original_order = order.copy()
     order_count = len(order)
     row = 0
     col = 0
@@ -57,7 +58,7 @@ def searchWareHouseOne(matrix_arry, status, path_list):
     while status is False:
         status, row, col = searchNeighbors(matrix_arry, row, col, order, status, path_list, already_visited)
 
-    return status, order_count;
+    return status, order_count, original_order;
 
 def searchWareHouseTwo(matrix_arry, status, path_list):
     #begin search
@@ -66,6 +67,7 @@ def searchWareHouseTwo(matrix_arry, status, path_list):
     already_visited = []
     # Random order generator
     order = fillOrder(shelf_list)
+    original_order = order.copy()
     order_count = len(order)
     row = 0
     col = 0
@@ -74,7 +76,7 @@ def searchWareHouseTwo(matrix_arry, status, path_list):
     while status is False:
         status, row, col = searchNeighbors(matrix_arry, row, col, order, status, path_list, already_visited)
 
-    return status, order_count;
+    return status, order_count, original_order;
 
 def searchUp(matrix_array, row, col, already_visited):
     # temp variable starts as -1 in case we try to move out of bounds.
@@ -217,7 +219,7 @@ if __name__ == "__main__":
     matrix_arry = buildWareHouseOne(matrix_arry)
 
     # This will be the end as the order status will be changed to True
-    order_filled, order_count = searchWareHouseOne(matrix_arry, order_filled, path_list)
+    order_filled, order_count, customer_order = searchWareHouseOne(matrix_arry, order_filled, path_list)
 
     # End timer
     end = time.time()
@@ -229,15 +231,15 @@ if __name__ == "__main__":
 
     # Calculate scores (35-n)*(-1)+n*3=35+4*n
     # = 35 + 4n
-    final_score = 35 + 4*len(path_list)
+    final_score = 35 + 4*order_count
 
     # Calculate our score
     our_score = 3*(order_count) - (len(path_list) - order_count)
 
     # Write to csv file
-    data = [len(path_list), final_runtime, path_list, final_score, our_score]
+    data = [ customer_order, len(path_list), path_list, final_score, our_score]
     # Make csv header
-    header = ['List Size', 'Run Time', 'Nodes Visited', 'Brute Force Score', 'Our Score']
+    header = ['Customer Order', 'Path Size', 'Nodes Visited', 'Brute Force Score', 'Our Score']
     # File path
     csv_path = 'layout_01.csv'
 
@@ -271,7 +273,7 @@ if __name__ == "__main__":
     matrix_arry = buildWareHouseTwo(matrix_arry)
 
     # This will be the end as the order status will be changed to True
-    order_filled2, order_count2 = searchWareHouseTwo(matrix_arry, order_filled2, path_list2)
+    order_filled2, order_count2, customer_order2 = searchWareHouseTwo(matrix_arry, order_filled2, path_list2)
 
     # End timer
     end = time.time()
@@ -283,15 +285,15 @@ if __name__ == "__main__":
 
     # Calculate scores (35-n)*(-1)+n*3=35+4*n
     # = 35 + 4n
-    final_score = 35 + 4 * len(path_list2)
+    final_score = 35 + 4 * order_count2
 
     # Calculate our score
     our_score2 = 3 * (order_count2) - (len(path_list) - order_count2)
 
     # Write to csv file
-    data = [len(path_list2), final_runtime, path_list2, final_score, our_score2]
+    data = [customer_order2, len(path_list2), path_list2, final_score, our_score2]
     # Make csv header
-    header = ['List Size', 'Run Time', 'Nodes Visited', 'Brute Force Score', 'Our Score']
+    header = ['Customer Order', 'Path Size', 'Nodes Visited', 'Brute Force Score', 'Our Score']
     # File path
     csv_path = 'layout_02.csv'
 
