@@ -34,22 +34,26 @@ max_path = csv_data['Nodes Visited'].iloc[-1]
 min_score = csv_data['Brute Force Score'].iloc[0]# 35 + 4*min_value
 max_score = csv_data['Brute Force Score'].iloc[-1]# 35 + 4*max_value
 
+min_our_score = csv_data['Our Score'].iloc[0]
+max_our_score = csv_data['Our Score'].iloc[-1]
+
 # Record the average of the scores column
 score_average = csv_data['Brute Force Score'].mean()
+our_score_average = csv_data['Our Score'].mean()
 
 # Print to terminal, all of the answers
 print("****** LAYOUT 1 ******")
-print("Average Brute Force Score:\n", score_average)
-print("Average Final Score:\n")
-print("\nShortest Path:\n", min_value)
+print("Average Brute Force Score: ", score_average)
+print("Average Final Score: ", our_score_average)
+print("\nShortest Path Size: ", min_value)
 print(min_path)
-print("Brute Force Score:\n", min_score)
-print("Actual Score:\n")
+print("Brute Force Score: ", min_score)
+print("Actual Score: ", min_our_score)
 
-print("\nLongest Path:\n", max_value)
+print("\nLongest Path Size: ", max_value)
 print(max_path)
-print("Brute Force Score:\n", max_score)
-print("Actual Score:\n")
+print("Brute Force Score: ", max_score)
+print("Actual Score: ", max_our_score)
 
 print("\nBeginning Layout 2\n")
 # =======================================================================
@@ -78,26 +82,28 @@ max_path = csv_data['Nodes Visited'].iloc[-1]
 min_score = csv_data['Brute Force Score'].iloc[0]# 35 + 4*min_value
 max_score = csv_data['Brute Force Score'].iloc[-1]# 35 + 4*max_value
 
+min_our_score = csv_data['Our Score'].iloc[0]
+max_our_score = csv_data['Our Score'].iloc[-1]
+
 # Record the average of the scores column
 score_average = csv_data['Brute Force Score'].mean()
+our_score_average = csv_data['Our Score'].mean()
 
 # Print to terminal, all of the answers
 print("****** LAYOUT 2 ******")
-print("Average Brute Force Score:\n", score_average)
-print("Average Final Score:\n")
-print("\nShortest Path:\n", min_value)
+print("Average Brute Force Score: ", score_average)
+print("Average Final Score: ", our_score_average)
+print("\nShortest Path Size: ", min_value)
 print(min_path)
 print("Brute Force Score: ", min_score)
-print("Actual Score:\n")
+print("Actual Score: ", min_our_score)
 
-print("\nLongest Path:\n", max_value)
+print("\nLongest Path Size: ", max_value)
 print(max_path)
 print("Brute Force Score: ", max_score)
-print("Actual Score:\n")
+print("Actual Score: ", max_our_score)
 
 # Show the program is completed
 print("\nProgram completed")
 
 # Print the results
-
-
