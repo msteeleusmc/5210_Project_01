@@ -30,51 +30,55 @@ def layoutTwo(matrix_arry):
 
     return matrix_arry
 
-def fillOrder(matrix_arry, order, status):
-    pass
-    # Eventually run this until status is True because order is filled
+def fillOrder(shelf_list):
+    # Make a new order list
+    new_order = []
+    # For loop will make a random range to assign list elements
+    for i in range(0,random.randint(1,len(shelf_list)-1)):
+        new_order.append(shelf_list[i])
+
+    # Shuffle the order of the list
+    random.shuffle(new_order)
+
+    return new_order
 
 def searchWareHouseOne(matrix_arry, status, path_list):
     #begin search
     shelf_list = ['A','B','C','D','E','F','G','H','I','J']
+    # List of already visited shelfs
+    already_visited = []
+    # Random order generator
+    order = fillOrder(shelf_list)
+    original_order = order.copy()
+    order_count = len(order)
     row = 0
     col = 0
 
     # Change while loop back to status check once traversal complete
     while status is False:
-        if col <= 5:
-            status = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
-            col += 1
-        elif row > 5:
-            row = 0
-            col = 0
-        else:
-            row += 1
-            col = 0
+        status, row, col = searchNeighbors(matrix_arry, row, col, order, status, path_list, already_visited)
 
-    return status
+    return status, order_count, original_order;
 
 def searchWareHouseTwo(matrix_arry, status, path_list):
     #begin search
     shelf_list = ['A','B','C','D','E','F','G','H','I','J','K','M','N','O','P','Q']
+    # List of already visited shelfs
+    already_visited = []
+    # Random order generator
+    order = fillOrder(shelf_list)
+    original_order = order.copy()
+    order_count = len(order)
     row = 0
     col = 0
 
     # Change while loop back to status check once traversal complete
     while status is False:
-        if col <= 5:
-            status = searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list)
-            col += 1
-        elif row > 5:
-            row = 0
-            col = 0
-        else:
-            row += 1
-            col = 0
+        status, row, col = searchNeighbors(matrix_arry, row, col, order, status, path_list, already_visited)
 
-    return status
+    return status, order_count, original_order;
 
-def searchUp(matrix_array, row, col):
+def searchUp(matrix_array, row, col, already_visited):
     # temp variable starts as -1 in case we try to move out of bounds.
     # if row is not 0 then the temp variable will return new value.
     temp = -1
@@ -84,7 +88,7 @@ def searchUp(matrix_array, row, col):
     else:
         return temp
 
-def searchDown(matrix_array, row, col):
+def searchDown(matrix_array, row, col, already_visited):
     # temp variable starts as -1 in case we try to move out of bounds.
     # if row is not 5 then the temp variable will return new value.
     temp = -1
@@ -94,7 +98,7 @@ def searchDown(matrix_array, row, col):
     else:
         return temp
 
-def searchLeft(matrix_array, row, col):
+def searchLeft(matrix_array, row, col, already_visited):
     # temp variable starts as -1 in case we try to move out of bounds.
     # if col is not 0 then the temp variable will return new value.
     temp = -1
@@ -104,7 +108,7 @@ def searchLeft(matrix_array, row, col):
     else:
         return temp
 
-def searchRight(matrix_array, row, col):
+def searchRight(matrix_array, row, col, already_visited):
     # temp variable starts as -1 in case we try to move out of bounds.
     # if col is not 5 then the temp variable will return new value.
     temp = -1
@@ -114,12 +118,12 @@ def searchRight(matrix_array, row, col):
     else:
         return temp
 
-def searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list):
+def searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list, already_visited):
     # Call direction functions to check 4 neighbors and store values
-    mUp = searchUp(matrix_arry, row, col)
-    mDown = searchDown(matrix_arry, row, col)
-    mLeft = searchLeft(matrix_arry, row, col)
-    mRight = searchRight(matrix_arry, row, col)
+    mUp = searchUp(matrix_arry, row, col, already_visited)
+    mDown = searchDown(matrix_arry, row, col, already_visited)
+    mLeft = searchLeft(matrix_arry, row, col, already_visited)
+    mRight = searchRight(matrix_arry, row, col, already_visited)
 
     # Make a list of values if > -1.
     directionList = []
@@ -141,8 +145,13 @@ def searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list):
 
     # Remove integers if shelves are in the list
     if char_found is True:
-        # Remove all integers
-        directionList = [x for x in directionList if not isinstance(x, int)]
+        # Check if shelfs in order
+        for j in directionList:
+            for i in shelf_list:
+                if j == i:
+                    # Remove all integers
+                    directionList = [x for x in directionList if not isinstance(x, int)]
+
         # assign the new position based on random choice
         new_position = random.choice(directionList)
 
@@ -150,25 +159,39 @@ def searchNeighbors(matrix_arry, row, col, shelf_list, status, path_list):
         for i in shelf_list:
             if new_position == i:
                 shelf_list.remove(i)
+                already_visited.append(i)
 
         # Update the path list to track visited nodes
         path_list.append(new_position)
 
+        # Assign new row and col
+        for i in range(0,5):
+            for j in range(0,5):
+                if new_position == matrix_arry[i][j]:
+                    row = i
+                    col = j
+
         # Update the status to True if no shelves remain in list
         if len(shelf_list) == 0:
-            return True
+            return True, row, col;
 
         # Status remains False if shelves are still in list
-        return False
+        return False, row, col;
     else:
         # Assign the position based on random choice
         new_position = random.choice(directionList)
+
+        for i in range(0, 5):
+            for j in range(0, 5):
+                if new_position == matrix_arry[i][j]:
+                    row = i
+                    col = j
 
         # Add the node to the path list
         path_list.append(new_position)
 
         # Return status is False to continue loop
-        return False
+        return False, row, col;
 
 # -----------------------------------------------------------------------------------
 #                         Executes Main Program
@@ -179,6 +202,7 @@ if __name__ == "__main__":
 
     # Variable checks if the order is completed or not
     order_filled = False
+    order_count = 0
 
     # Size of the array is established
     rows, cols = (6, 6)
@@ -195,7 +219,7 @@ if __name__ == "__main__":
     matrix_arry = buildWareHouseOne(matrix_arry)
 
     # This will be the end as the order status will be changed to True
-    order_filled = searchWareHouseOne(matrix_arry, order_filled, path_list)
+    order_filled, order_count, customer_order = searchWareHouseOne(matrix_arry, order_filled, path_list)
 
     # End timer
     end = time.time()
@@ -207,12 +231,15 @@ if __name__ == "__main__":
 
     # Calculate scores (35-n)*(-1)+n*3=35+4*n
     # = 35 + 4n
-    final_score = 35 + 4*len(path_list)
+    final_score = 35 + 4*order_count
+
+    # Calculate our score
+    our_score = 3*(order_count) - (len(path_list) - order_count)
 
     # Write to csv file
-    data = [len(path_list), final_runtime, path_list, final_score]
+    data = [ customer_order, len(path_list), path_list, final_score, our_score]
     # Make csv header
-    header = ['List Size', 'Run Time', 'Nodes Visited', 'Score (35 + 4n)']
+    header = ['Customer Order', 'Path Size', 'Nodes Visited', 'Brute Force Score', 'Our Score']
     # File path
     csv_path = 'layout_01.csv'
 
@@ -246,7 +273,7 @@ if __name__ == "__main__":
     matrix_arry = buildWareHouseTwo(matrix_arry)
 
     # This will be the end as the order status will be changed to True
-    order_filled2 = searchWareHouseTwo(matrix_arry, order_filled2, path_list2)
+    order_filled2, order_count2, customer_order2 = searchWareHouseTwo(matrix_arry, order_filled2, path_list2)
 
     # End timer
     end = time.time()
@@ -258,12 +285,15 @@ if __name__ == "__main__":
 
     # Calculate scores (35-n)*(-1)+n*3=35+4*n
     # = 35 + 4n
-    final_score = 35 + 4 * len(path_list2)
+    final_score = 35 + 4 * order_count2
+
+    # Calculate our score
+    our_score2 = 3 * (order_count2) - (len(path_list) - order_count2)
 
     # Write to csv file
-    data = [len(path_list2), final_runtime, path_list2, final_score]
+    data = [customer_order2, len(path_list2), path_list2, final_score, our_score2]
     # Make csv header
-    header = ['List Size', 'Run Time', 'Nodes Visited', 'Score (35 + 4n)']
+    header = ['Customer Order', 'Path Size', 'Nodes Visited', 'Brute Force Score', 'Our Score']
     # File path
     csv_path = 'layout_02.csv'
 
@@ -278,7 +308,6 @@ if __name__ == "__main__":
             writer.writerow(header)
             writer.writerow(data)
             f.close()
-
 
 # To search down add 6 to the array position
 # To search left subtract 1 to the array position
