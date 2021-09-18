@@ -231,7 +231,7 @@ if __name__ == "__main__":
 
     # Calculate scores (35-n)*(-1)+n*3=35+4*n
     # = 35 + 4n
-    final_score = 35 + 4*order_count
+    final_score = -35 + 4*order_count
 
     # Calculate our score
     our_score = 3*(order_count) - (len(path_list) - order_count)
@@ -285,7 +285,7 @@ if __name__ == "__main__":
 
     # Calculate scores (35-n)*(-1)+n*3=35+4*n
     # = 35 + 4n
-    final_score = 35 + 4 * order_count2
+    final_score = -35 + 4 * order_count2
 
     # Calculate our score
     our_score2 = 3 * (order_count2) - (len(path_list) - order_count2)
