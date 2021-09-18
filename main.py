@@ -231,13 +231,13 @@ if __name__ == "__main__":
 
     # Calculate scores (35-n)*(-1)+n*3=35+4*n
     # = 35 + 4n
-    final_score = -35 + 4*order_count
+    final_score = -35 + 4 * order_count
 
     # Calculate our score
-    our_score = 3*(order_count) - (len(path_list) - order_count)
+    our_score = (3*order_count) - (len(path_list) - order_count)
 
     # Write to csv file
-    data = [ customer_order, len(path_list), path_list, final_score, our_score]
+    data = [customer_order, len(path_list), path_list, final_score, our_score]
     # Make csv header
     header = ['Customer Order', 'Path Size', 'Nodes Visited', 'Brute Force Score', 'Our Score']
     # File path
@@ -288,8 +288,8 @@ if __name__ == "__main__":
     final_score = -35 + 4 * order_count2
 
     # Calculate our score
-    our_score2 = 3 * (order_count2) - (len(path_list) - order_count2)
-
+    our_score2 = (3 * order_count2) - (len(path_list2) - order_count2)
+    
     # Write to csv file
     data = [customer_order2, len(path_list2), path_list2, final_score, our_score2]
     # Make csv header
