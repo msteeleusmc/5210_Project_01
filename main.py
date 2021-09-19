@@ -34,7 +34,7 @@ def fillOrder(shelf_list):
     # Make a new order list
     new_order = []
     # For loop will make a random range to assign list elements
-    for i in range(0,random.randint(1,len(shelf_list)-1)):
+    for i in range(0,random.randint(1,len(shelf_list))):
         new_order.append(shelf_list[i])
 
     # Shuffle the order of the list
